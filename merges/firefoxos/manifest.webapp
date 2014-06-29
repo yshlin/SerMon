@@ -1,0 +1,22 @@
+{
+    "name": "SerMon",
+    "pkgName": "in.yshl.sermon",
+    "description": "A sample Apache Cordova application that responds to the deviceready event.",
+    "version": "0.0.1",
+    "type": "privileged",
+    "launch_path": "/index.html",
+    "installs_allowed_from": [
+        "*"
+    ],
+    "developer": {
+        "name": "Apache Cordova Team",
+        "url": "http://cordova.io"
+    },
+    "icons": {
+        "128": "/img/logo.png"
+    },
+    "permissions": {
+        "systemXHR" : {},
+        "desktop-notification":{}
+    }
+}
