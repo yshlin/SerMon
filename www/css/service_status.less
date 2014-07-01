@@ -1,0 +1,54 @@
+@import "base";
+
+#service-status {
+	display: block;
+	border-top: 1px solid #CCCCCC;
+	.entry {
+		display: block;
+		border-bottom: 1px solid #CCCCCC;
+		padding: 10px;
+
+		.label {
+			display: block;
+			height: 24px;
+			line-height: 24px;
+			vertical-align: middle;
+			font-weight: bolder;
+		}
+		.value {
+			display: block;
+			height: 24px;
+			line-height: 24px;
+			vertical-align: middle;
+			.indicator {
+				margin-right: 10px;
+			}
+		}
+	}
+}
+
+#actions {
+	display: block;
+	border-bottom: 1px solid #CCCCCC;
+	padding-left: 10px;
+
+	.label {
+		display: block;
+		height: 24px;
+		line-height: 24px;
+		vertical-align: middle;
+		font-weight: bolder;
+		text-align: left;
+	}
+}
+
+#monitor-logs {
+    display: block;
+    margin: 0;
+    padding: 0;
+    .log {
+    	display: inline-block;
+    	list-style-type: none;
+    	padding: 10px;
+    }
+}

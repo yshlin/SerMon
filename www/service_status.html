@@ -23,25 +23,47 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/service_status.css" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <title>Service Monitor</title>
+        <title>Service Status</title>
     </head>
     <body>
         <div class="app">
-            <ul id="services">
-            </ul>
-            <div id="actions">
-                <a id="check-all" class="button green" href="">Check All Now</a>
-                <a id="add-service" class="button" href="/add_service.html">+ Add Service Monitor</a>
+            <h1>Service Status</h1>
+            <div id="service-status">
+                <div class="entry">
+                    <span class="label">Service URL: </span>
+                    <span class="value" id="service-url"></span>
+                </div>
+                <div class="entry">
+                    <span class="label">Check frequency: </span>
+                    <span class="value" id="check-frequency"></span>
+                </div>
+                <div class="entry">
+                    <span class="label">Last checked: </span>
+                    <span class="value" id="last-checked"></span>
+                </div>
+                <div class="entry">
+                    <span class="label">Latest Status: </span>
+                    <span class="value" id="latest-status"></span>
+                </div>
             </div>
+            <div id="actions">
+                <span class="label">Actions: </span>
+                <a id="check-service" class="button green" href="/index.html">Check Now</a>
+                <a id="edit-service" class="button" href="">Edit</a>
+                <a id="delete-service" class="button red" href="">Delete</a>
+                <a id="back-to-list" class="button" href="">&laquo; Back</a>
+            </div>
+            <h2>Monitor Logs: </h2>
+            <ul id="monitor-logs">
+            </ul>
         </div>
-        <div id="popup"><iframe src="add_service.html"></iframe></div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/chronos.js"></script>
         <script type="text/javascript" src="js/utils.js"></script>
         <script type="text/javascript" src="js/database.js"></script>
         <script type="text/javascript" src="js/transparency.min.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/service_status.js"></script>
     </body>
 </html>

@@ -107,72 +107,46 @@ span.indicator.red {
 span.indicator.gray {
   background-color: #CCCCCC;
 }
-#services {
-  margin: 0;
-  padding: 0;
-}
-#services .service {
+label,
+input,
+select {
   display: block;
-  height: 60px;
+  height: 24px;
+  line-height: 24px;
+  vertical-align: middle;
+  font-size: 14px;
+  width: 96%;
+}
+input,
+select {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.02) inset;
+  font-family: "Open Sans", Arial, Helvetica, "Microsoft JhengHei", "Apple LiGothic Medium", sans-serif;
+  padding: 0 5px;
+  transition: all 0.1s linear 0s;
+}
+input:focus,
+select:focus {
   background-color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));
-  background: -webkit-linear-gradient(top, #ffffff, #eeeeee);
-  background: -moz-linear-gradient(top, #ffffff, #eeeeee);
-  background: -ms-linear-gradient(top, #ffffff, #eeeeee);
-  background: -o-linear-gradient(top, #ffffff, #eeeeee);
-  border-bottom: 1px solid #CCCCCC;
-  list-style-type: none;
+  border-color: #3c3c3c;
+  outline: 0 none;
 }
-#services .service .service-link {
-  position: relative;
+input:hover,
+select:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: #999999;
+}
+label {
+  font-weight: bolder;
+}
+.field {
   display: block;
-  height: 100%;
+  border-top: 1px solid #CCCCCC;
+  padding: 10px;
 }
-#services .service .service-url {
-  display: block;
-  padding-left: 36px;
-  overflow: hidden;
-  height: 100%;
-  vertical-align: middle;
-  line-height: 60px;
-  font-size: 15px;
-}
-#services .service .indicator {
-  position: absolute;
-  display: inline-block;
-  top: 0;
-  left: 0;
-  margin: 25px 13px;
-  vertical-align: middle;
-}
-#services .service .last-check {
-  position: absolute;
-  display: inline-block;
-  top: 0;
-  right: 0;
-  height: 27px;
-  vertical-align: middle;
-  line-height: 27px;
-  padding-right: 10px;
-  color: #BBBBBB;
-  font-size: 11px;
-}
-#popup {
-  position: fixed;
-  display: none;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #FFFFFF;
-}
-#popup iframe {
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-}
-#popup.show {
-  display: block;
+#actions .button {
+  width: 96px;
+  margin: 0 6px;
 }

@@ -107,72 +107,51 @@ span.indicator.red {
 span.indicator.gray {
   background-color: #CCCCCC;
 }
-#services {
-  margin: 0;
-  padding: 0;
-}
-#services .service {
+#service-status {
   display: block;
-  height: 60px;
-  background-color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));
-  background: -webkit-linear-gradient(top, #ffffff, #eeeeee);
-  background: -moz-linear-gradient(top, #ffffff, #eeeeee);
-  background: -ms-linear-gradient(top, #ffffff, #eeeeee);
-  background: -o-linear-gradient(top, #ffffff, #eeeeee);
+  border-top: 1px solid #CCCCCC;
+}
+#service-status .entry {
+  display: block;
   border-bottom: 1px solid #CCCCCC;
-  list-style-type: none;
+  padding: 10px;
 }
-#services .service .service-link {
-  position: relative;
+#service-status .entry .label {
   display: block;
-  height: 100%;
+  height: 24px;
+  line-height: 24px;
+  vertical-align: middle;
+  font-weight: bolder;
 }
-#services .service .service-url {
+#service-status .entry .value {
   display: block;
-  padding-left: 36px;
-  overflow: hidden;
-  height: 100%;
-  vertical-align: middle;
-  line-height: 60px;
-  font-size: 15px;
-}
-#services .service .indicator {
-  position: absolute;
-  display: inline-block;
-  top: 0;
-  left: 0;
-  margin: 25px 13px;
+  height: 24px;
+  line-height: 24px;
   vertical-align: middle;
 }
-#services .service .last-check {
-  position: absolute;
-  display: inline-block;
-  top: 0;
-  right: 0;
-  height: 27px;
+#service-status .entry .value .indicator {
+  margin-right: 10px;
+}
+#actions {
+  display: block;
+  border-bottom: 1px solid #CCCCCC;
+  padding-left: 10px;
+}
+#actions .label {
+  display: block;
+  height: 24px;
+  line-height: 24px;
   vertical-align: middle;
-  line-height: 27px;
-  padding-right: 10px;
-  color: #BBBBBB;
-  font-size: 11px;
+  font-weight: bolder;
+  text-align: left;
 }
-#popup {
-  position: fixed;
-  display: none;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #FFFFFF;
-}
-#popup iframe {
-  border: none;
+#monitor-logs {
+  display: block;
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
 }
-#popup.show {
-  display: block;
+#monitor-logs .log {
+  display: inline-block;
+  list-style-type: none;
+  padding: 10px;
 }

@@ -1,0 +1,44 @@
+@import "base";
+
+label, input, select {
+	display: block;
+	height: 24px;
+	line-height: 24px;
+	vertical-align: middle;
+	font-size: 14px;
+	width: 96%;
+}
+
+input, select {
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+	box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.02) inset;
+	font-family: "Open Sans",Arial,Helvetica,"Microsoft JhengHei","Apple LiGothic Medium",sans-serif;
+	padding: 0 5px;
+	transition: all 0.1s linear 0s;
+	&:focus {
+	    background-color: rgb(255, 255, 255);
+	    border-color: rgb(60, 60, 60);
+	    outline: 0 none;
+	}
+	&:hover {
+	    background-color: rgba(255, 255, 255, 0.9);
+	    border-color: rgb(153, 153, 153);
+	}
+}
+
+label {
+	font-weight: bolder;
+}
+
+.field {
+	display: block;
+	border-top: 1px solid #CCCCCC;
+	padding: 10px;
+}
+
+#actions .button {
+	width: 96px;
+	margin: 0 6px;
+}

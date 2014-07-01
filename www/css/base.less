@@ -1,0 +1,118 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+/* LESS mixins */
+
+ .gradient (@startColor: #FFF, @endColor: #EEE) {
+    background-color: @startColor;
+    background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+    background: -webkit-linear-gradient(top, @startColor, @endColor);
+    background: -moz-linear-gradient(top, @startColor, @endColor);
+    background: -ms-linear-gradient(top, @startColor, @endColor);
+    background: -o-linear-gradient(top, @startColor, @endColor);
+}
+
+.border-radius (@radius: 5px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius:    @radius;
+    border-radius:         @radius;
+
+    -moz-background-clip:    padding;
+    -webkit-background-clip: padding-box;
+    background-clip:         padding-box;
+}
+
+/* Default and shared styles */
+
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+    -webkit-text-size-adjust: 100%;
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    font-family: Arial, sans-serif;
+    font-size:14px;
+    color: #484848;
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+}
+
+h1, h2, h3, h4, h5, h6 {
+    padding-left: 10px;
+}
+
+a {
+    color: #484848;
+    text-decoration: none;
+    span {
+        color: #484848;
+        text-decoration: none;
+    }    
+}
+
+.button {
+    display: inline-block;
+    .border-radius;
+    height: 48px;
+    vertical-align: middle;
+    background-color: #BBBBBB;
+    line-height: 48px;
+    padding: 0 12px;
+    color: #FFFFFF;
+    span {
+        color: #FFFFFF;
+    }
+    &.green {
+        background-color: #88CC88;
+    }
+    &.red {
+        background-color: #FF8888;
+    }
+}
+
+#actions {
+    display: block;
+    text-align: center;
+    padding: 24px 0;
+}
+
+span.indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #CCCCCC;
+    .border-radius();
+    &.green {
+        background-color: #00CC00; 
+    }
+    &.red {
+        background-color: #FF0000; 
+    }
+    &.gray {
+        background-color: #CCCCCC; 
+    }
+}
+
