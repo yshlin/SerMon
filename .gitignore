@@ -4,7 +4,7 @@ platforms/android/assets/www
 platforms/android/ant-build/
 platforms/android/bin/
 platforms/android/gen/
-platforms/android/res/xml/config.xml
+#platforms/android/res/xml/config.xml
  
 # iOS
 platforms/ios/build/
