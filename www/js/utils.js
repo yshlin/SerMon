@@ -36,3 +36,119 @@ String.prototype.endsWith = function(suffix) {
 String.prototype.startsWith = function(suffix) {
     return this.indexOf(suffix) == 0;
 };
+
+var Popup = {
+    popup: undefined,
+    initialize: function() {
+        var pop = document.createElement('div');
+        pop.id="popup";
+        pop.innerHTML = '<iframe src="about:blank"></iframe>';
+        Popup.popup = document.body.appendChild(pop);
+    },
+    postMessage: function(message) {
+        if (Popup.popup.firstChild.src != 'about:blank') {
+            Popup.popup.firstChild.contentWindow.postMessage(message, '*');
+        }
+    },
+    show: function(url) {
+        Popup.popup.firstChild.src = url;
+        Popup.popup.className = 'show';
+    },
+    hide: function() {
+        Popup.popup.firstChild.src = 'about:blank';
+        Popup.popup.className = '';
+    }
+};
+
+var Loading = {
+    indicator: undefined,
+    initialize: function() {
+        var ind = document.createElement('div');
+        ind.id = 'loading-indicator';
+        ind.innerHTML = '<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>';
+        Loading.indicator = document.body.appendChild(ind);
+    },
+    show: function() {
+        Loading.indicator.className = 'show';
+    },
+    hide: function() {
+        Loading.indicator.className = '';
+    }
+};
+
+var Tooltip = {
+    tooltip: undefined,
+    target: undefined,
+    contentGenerator: undefined,
+    initialize: function(contentGenerator) {
+        var tt = document.createElement('div');
+        tt.id = 'tooltip';
+        Tooltip.tooltip = document.body.appendChild(tt);
+        Tooltip.contentGenerator = contentGenerator;
+        Tooltip.bindEvents();
+    },
+    bindEvents: function() {
+        //no need for dynamic generated content.
+        /*
+        var targets = document.querySelectorAll('[data-rel=tooltip]');
+        for (var i = 0; i < targets.length; ++i) {
+            console.log(targets[i]);
+            targets[i].addEventListener('click', Tooltip.show);
+            //targets[i].addEventListener('mouseleave', Tooltip.hide);
+        }
+        */
+        Tooltip.tooltip.addEventListener('click', Tooltip.hide);
+        window.addEventListener('resize', Tooltip.show);
+    },
+    show: function()
+    {
+        console.log('show tooltip');
+        Tooltip.target = this;
+        var tip;
+        if (Tooltip.contentGenerator) {
+            tip = Tooltip.contentGenerator(Tooltip.target);
+        }
+        else {
+            tip = Tooltip.target['title'];
+        }
+        if( !tip || tip == '' ) {            
+            return false;
+        }
+        Tooltip.tooltip.innerHTML = tip ;
+        if( window.innerWidth < Tooltip.tooltip.offsetWidth * 1.5 ) {
+            Tooltip.tooltip.style.maxWidth = (window.innerWidth / 2)+'px';
+        }
+        else {
+            Tooltip.tooltip.style.maxWidth = 320 + 'px';
+        }
+        
+        var pos_left = Tooltip.target.offsetLeft + ( Tooltip.target.offsetWidth / 2 ) - ( Tooltip.tooltip.offsetWidth / 2 ),
+            pos_top  = Tooltip.target.offsetTop - Tooltip.tooltip.offsetHeight - 20;
+        Tooltip.tooltip.className = '';
+        if( pos_left < 0 )
+        {
+            pos_left = Tooltip.target.offsetLeft + Tooltip.target.offsetWidth / 2 - 20;
+            Tooltip.tooltip.className += ' left';
+        }
+        
+        if( pos_left + Tooltip.tooltip.offsetWidth > window.innerWidth ) {
+            pos_left = Tooltip.target.offsetLeft - Tooltip.tooltip.offsetWidth + Tooltip.target.offsetWidth / 2 + 20;
+            Tooltip.tooltip.className +=' right';
+        }
+        
+        if( pos_top < 0 )
+        {
+            var pos_top  = Tooltip.target.offsetTop + Tooltip.target.offsetHeight;
+            Tooltip.tooltip.className += ' top';
+        }
+        
+        Tooltip.tooltip.style.left = pos_left + 'px';
+        Tooltip.tooltip.style.top = pos_top + 'px';
+
+        Tooltip.tooltip.className += ' show';
+    },
+    hide: function()
+    {
+        Tooltip.tooltip.className = Tooltip.tooltip.className.replace('show', '');
+    }
+};

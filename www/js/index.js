@@ -47,38 +47,49 @@ var app = {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.getElementById('check-all').addEventListener('click', function(e) {
             e.preventDefault();
+            Loading.show();
             db.listServices(function(service) {
                 if (service) {
                     app.checkServiceStatus(service.id, service.url);
+                }
+                else {
+                    Loading.hide();
                 }
             });
             return false;
         });
         document.getElementById('add-service').addEventListener('click', function(e) {
             e.preventDefault();
-            var popup = document.getElementById('popup');
-            popup.firstChild.src = 'add_service.html';
-            popup.className = 'show';
+            Popup.show('add_service.html');
             return false;
         });
-        document.addEventListener('online', function() { app.connected = true; console.log('Now online.'); });
-        document.addEventListener('offline', function() { app.connected = false; console.log('Now offline.'); });
+        // document.addEventListener('online', function() { app.connected = true; console.log('Now online.'); });
+        // document.addEventListener('offline', function() { app.connected = false; console.log('Now offline.'); });
         window.addEventListener('message', function(e) {
-            console.log(e.data);
-            if (e.data.startsWith('check-service-')) {
+            // console.log(e.data);
+            if (e.data == 'show-loading') {
+                Loading.show();
+                return;
+            }
+            else if (e.data == 'hide-loading') {
+                Loading.hide();
+                return;
+            }
+            else if (e.data.startsWith('check-service-')) {
                 // check service
                 var serviceId = parseInt(e.data.substring(14));
+                Loading.show();
                 db.getService(serviceId, function(service) {
                     app.checkServiceStatus(serviceId, service.url, function(service) {
                         // callback when ready
-                        popup.firstChild.contentWindow.postMessage('service-checked', '*');
+                        Loading.hide();
                     });
                 });
                 return;
             }
             else if (e.data.startsWith('edit-service-')) {
                 var serviceId = parseInt(e.data.substring(13));
-                popup.firstChild.src = 'add_service.html?id='+serviceId;
+                Popup.show('add_service.html?id='+serviceId);
                 return;
             }
             else if (e.data.startsWith('add-service-')) {
@@ -86,6 +97,7 @@ var app = {
                 var serviceId = parseInt(e.data.substring(12));
                 chronos.clearInterval(app.tasks[serviceId]);
                 delete app.tasks[serviceId];
+                Loading.show();
                 db.getService(serviceId, function(service) {
                     if (service) {
                         app.renderService(service);
@@ -99,20 +111,22 @@ var app = {
                         else {
                             app.checkServiceStatus(service.id, service.url);
                         }
+                        Loading.hide();
                     }
                 });
             }
             else if (e.data.startsWith('delete-service-')) {
                 // remove deleted service from UI
                 var serviceId = parseInt(e.data.substring(15));
+                Loading.show();
                 document.getElementById('service-'+serviceId).remove();
                 db.removeService(serviceId, function(e) {
                     chronos.clearInterval(app.tasks[serviceId]);
                     delete app.tasks[serviceId];
+                    Loading.hide();
                 })
             }
-            popup.firstChild.src = 'about:blank';
-            document.getElementById('popup').className = '';
+            Popup.hide();
         });
     },
     // deviceready Event Handler
@@ -121,7 +135,10 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         console.log('Device Ready!');
-        console.log('Connection type: ' + navigator.connection.type);
+        // console.log('Connection type: ' + navigator.connection.type);
+        Popup.initialize();
+        Loading.initialize();
+        Loading.show();
         app.connected = (navigator.connection.type != Connection.NONE);
         if (window.navigator.requestWakeLock) {
             app.wifiLock = window.navigator.requestWakeLock('wifi');            
@@ -141,11 +158,14 @@ var app = {
                         app.checkServiceStatus(service.id, service.url);
                     }
                 }
+                else {
+                    Loading.hide();
+                }
             });
         });
     },
     renderService: function(service) {
-        console.info(service);
+        // console.info(service);
         var data = {
             'service-link': {
                 'service-url': service.url,
@@ -173,9 +193,7 @@ var app = {
             result.id = 'service-' + service.id;
             result.addEventListener('click', function(e) {
                 e.preventDefault();
-                var popup = document.getElementById('popup');
-                popup.firstChild.src = 'service_status.html?id='+service.id;
-                popup.className = 'show';
+                Popup.show('service_status.html?id='+service.id);
                 return false;
             });
             var services = document.getElementById('services');
@@ -189,12 +207,12 @@ var app = {
             switch(http.readyState) {
                 case 2:
                     callback(http.status, http.statusText);
-                    console.log('http status: '+http.status+' '+http.statusText);
+                    // console.log('http status: '+http.status+' '+http.statusText);
                 case 0:
                 case 1:
                 case 3:
                 case 4:
-                    console.log('readystatechange: ' + http.readyState);
+                    // console.log('readystatechange: ' + http.readyState);
                     break;
                 default:
                     break;
@@ -208,18 +226,19 @@ var app = {
         log.serviceId = serviceId;
         log.timestamp = new Date().getTime();
         db.addServiceLog(serviceId, log, function() {
-            console.log('Service log added.');
+            // console.log('Service log added.');
             var data =  {
                 lastCheck: log.timestamp,
                 indicator: log.indicator,
                 latestStatus: (log.statusCode >= 200) ? (''+log.statusCode+' '+log.statusText) : log.errorMessage
             };
             db.modifyService(serviceId, data, function(service) {
-                console.log('Service info updated.');
+                // console.log('Service info updated.');
                 app.renderService(service);
                 if (callback) {
                     callback(service);
                 }
+                Popup.postMessage('service-checked-'+serviceId);
             });
         });
     },

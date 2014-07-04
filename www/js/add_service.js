@@ -65,12 +65,16 @@ var app = {
                     frequency: parseInt(document.getElementById('frequency').value),
                 };
                 if (app.serviceId) {
+                    parent.postMessage('show-loading', '*');
                     db.modifyService(app.serviceId, data, function(service) {
+                        parent.postMessage('hide-loading', '*');
                         parent.postMessage('add-service-'+service.id, '*');
                     });
                 }
                 else {
+                    parent.postMessage('show-loading', '*');
                     db.addService(data, function(id) {
+                        parent.postMessage('hide-loading', '*');
                         parent.postMessage('add-service-'+id, '*');
                     });
                 }

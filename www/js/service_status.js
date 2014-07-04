@@ -29,9 +29,15 @@ var app = {
         // document.addEventListener('deviceready', this.onDeviceReady, false);
         window.addEventListener('message', function(e) {
             console.log(e.data);
-            if (e.data == 'service-checked') {
-                app.clearServiceData();
-                app.loadServiceData();
+            if (e.data.startsWith('service-checked-')) {
+                var checkedId = parseInt(e.data.substring(16));
+                if (checkedId && app.serviceId == checkedId) {
+                    app.clearServiceData();
+                    parent.postMessage('show-loading', '*');
+                    app.loadServiceData(function() {
+                        parent.postMessage('hide-loading', '*');
+                    });
+                }
             }
         });
         document.getElementById('back-to-list').addEventListener('click', function(e) {
@@ -61,9 +67,12 @@ var app = {
         });
         document.getElementById('clear-logs').addEventListener('click', function(e) {
             e.preventDefault();
+            parent.postMessage('show-loading', '*');            
             db.removeOldServiceLogs(app.serviceId, 0, function(e) {
                 app.clearServiceData();
-                app.loadServiceData();
+                app.loadServiceData(function() {
+                    parent.postMessage('hide-loading', '*');
+                });
             })
             return false;
         });
@@ -71,6 +80,7 @@ var app = {
     getLogTemplate: function() {
         var template = document.createElement('li');
         template.className = 'log';
+        template.dataset.rel = 'tooltip';
         template.innerHTML = '<span class="indicator"> </span>';
         return template;
     },
@@ -101,7 +111,7 @@ var app = {
         var logs = document.getElementById('monitor-logs');
         logs.innerHTML = '';
     },
-    loadServiceData: function() {
+    loadServiceData: function(callback) {
         db.getService(app.serviceId, function(service) {
             console.log(service);
             if (service) {
@@ -118,8 +128,9 @@ var app = {
                 });
                 db.listServiceLogs(app.serviceId, function(log) {
                     if (log) {
-                        console.log(log);
+                        // console.log(log);
                         var logs = document.getElementById('monitor-logs');
+                        //fills empty indicators, but can't get the time diff right due to callback timing.
                         /*
                         if (logs.children.length > 0) {
                             var prevLog = logs.lastChild;
@@ -159,7 +170,13 @@ var app = {
                                 }
                             }
                         });
+                        output.addEventListener('click', Tooltip.show);
                         logs.appendChild(output);
+                    }
+                    else {
+                        if (callback) {
+                            callback();
+                        }
                     }
                 });
             }
@@ -169,10 +186,17 @@ var app = {
     onDeviceReady: function() {
         app.serviceId = getQueryParameters('id');
         if (app.serviceId) {
-            console.log('Fetching service status for id: '+ app.serviceId);
+            // console.log('Fetching service status for id: '+ app.serviceId);
+            Tooltip.initialize(function(target) {
+                var node = target.firstChild;
+                return '<span class="'+node.className+'"> </span>' + node.title + '<br>' + new Date(parseInt(node['data-timestamp'])).toLocaleString();
+            });
             app.serviceId = parseInt(app.serviceId);
+            parent.postMessage('show-loading', '*');
             db.initialize(function(conn) {
-                app.loadServiceData();
+                app.loadServiceData(function() {
+                    parent.postMessage('hide-loading', '*');                    
+                });
             });
         }
     }

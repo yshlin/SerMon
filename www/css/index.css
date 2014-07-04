@@ -116,6 +116,234 @@ span.indicator.red {
 span.indicator.gray {
   background-color: #CCCCCC;
 }
+.loadingKeyframes 0% {
+  background: rgba(144, 144, 144, 0.5);
+}
+.loadingKeyframes 50% {
+  background: rgba(0, 0, 0, 0.5);
+}
+.loadingKeyframes 100% {
+  background: rgba(144, 144, 144, 0.5);
+}
+@keyframes loading {
+  0% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+  50% {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+}
+@-moz-keyframes loading {
+  0% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+  50% {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+}
+@-webkit-keyframes loading {
+  0% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+  50% {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+}
+@-o-keyframes loading {
+  0% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+  50% {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+}
+@-ms-keyframes loading {
+  0% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+  50% {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    background: rgba(144, 144, 144, 0.5);
+  }
+}
+#loading-indicator {
+  position: absolute;
+  margin: auto;
+  top: 45%;
+  left: 0;
+  right: 0;
+  display: block;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  -moz-transition: opacity 0.2s ease-in-out;
+  -o-transition: opacity 0.2s ease-in-out;
+  -ms-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+}
+#loading-indicator.show {
+  opacity: 1;
+}
+#loading-indicator > div {
+  position: absolute;
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin: 2px;
+  border-radius: 5px;
+  background: rgba(144, 144, 144, 0.5);
+  -moz-animation: loading 0.8s infinite;
+  -webkit-animation: loading 0.8s infinite;
+  -o-animation: loading 0.8s infinite;
+  -ms-animation: loading 0.8s infinite;
+  animation: loading 0.8s infinite;
+}
+#loading-indicator > div:nth-child(1) {
+  top: 0px;
+  left: 10px;
+}
+#loading-indicator > div:nth-child(2) {
+  top: 3px;
+  left: 3px;
+  -moz-animation-delay: 0.1s;
+  -webkit-animation-delay: 0.1s;
+  -o-animation-delay: 0.1s;
+  -ms-animation-delay: 0.1s;
+  animation-delay: 0.1s;
+}
+#loading-indicator > div:nth-child(3) {
+  top: 10px;
+  left: 0px;
+  -moz-animation-delay: 0.2s;
+  -webkit-animation-delay: 0.2s;
+  -o-animation-delay: 0.2s;
+  -ms-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+#loading-indicator > div:nth-child(4) {
+  bottom: 3px;
+  left: 3px;
+  -moz-animation-delay: 0.3s;
+  -webkit-animation-delay: 0.3s;
+  -o-animation-delay: 0.3s;
+  -ms-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+#loading-indicator > div:nth-child(5) {
+  bottom: 0px;
+  left: 10px;
+  -moz-animation-delay: 0.4s;
+  -webkit-animation-delay: 0.4s;
+  -o-animation-delay: 0.4s;
+  -ms-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+#loading-indicator > div:nth-child(6) {
+  bottom: 3px;
+  right: 3px;
+  -moz-animation-delay: 0.5s;
+  -webkit-animation-delay: 0.5s;
+  -o-animation-delay: 0.5s;
+  -ms-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+#loading-indicator > div:nth-child(7) {
+  top: 10px;
+  right: 0px;
+  -moz-animation-delay: 0.6s;
+  -webkit-animation-delay: 0.6s;
+  -o-animation-delay: 0.6s;
+  -ms-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+#loading-indicator > div:nth-child(8) {
+  top: 3px;
+  right: 3px;
+  -moz-animation-delay: 0.7s;
+  -webkit-animation-delay: 0.7s;
+  -o-animation-delay: 0.7s;
+  -ms-animation-delay: 0.7s;
+  animation-delay: 0.7s;
+}
+#tooltip {
+  opacity: 0;
+  text-align: left;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  z-index: 100;
+  padding: 15px;
+  pointer-events: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+#tooltip.top {
+  margin-top: 20px;
+}
+#tooltip.show {
+  opacity: 1;
+  margin-top: 10px;
+  pointer-events: all;
+}
+#tooltip.show.top {
+  margin-top: 10px;
+}
+#tooltip:after {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid rgba(0, 0, 0, 0.6);
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  margin-left: -10px;
+}
+#tooltip.top:after {
+  border-top-color: transparent;
+  border-bottom: 10px solid rgba(0, 0, 0, 0.6);
+  top: -20px;
+  bottom: auto;
+}
+#tooltip.left:after {
+  left: 10px;
+  margin: 0;
+}
+#tooltip.right:after {
+  right: 10px;
+  left: auto;
+  margin: 0;
+}
+#tooltip .indicator {
+  margin-right: 8px;
+}
 #services {
   margin: 0;
   padding: 0;

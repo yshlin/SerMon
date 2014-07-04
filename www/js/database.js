@@ -88,7 +88,7 @@ var db = {
                 navigator.notification.alert('Modify service error: ' + event.target.errorCode, function(){});
             };
             requestUpdate.onsuccess = function(event) {
-                console.log(event.target.result);
+                // console.log(event.target.result);
                 callback(data);
             };
         }
@@ -176,7 +176,7 @@ var db = {
         cursor.onsuccess = function(event) {
             var cursor = event.target.result;
             if (cursor) {
-                console.log(cursor.value);
+                // console.log(cursor.value);
                 cursor.delete();
                 cursor.continue();
             }
