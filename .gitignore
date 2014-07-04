@@ -1,20 +1,3 @@
 .DS_Store
-# Android
-platforms/android/assets/www
-platforms/android/ant-build/
-platforms/android/bin/
-platforms/android/gen/
-#platforms/android/res/xml/config.xml
- 
-# iOS
-platforms/ios/build/
-platforms/ios/CordovaLib/build/
-platforms/ios/www
-platforms/ios/MyPace/config.xml
-platforms/ios/.staging
-platforms/ios/cordova/console.log
-
-# FirefoxOS
-platforms/firefoxos/build/
-platforms/firefoxos/www/
-
+platforms/*/*
+plugins/*/*
