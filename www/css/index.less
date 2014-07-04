@@ -6,7 +6,6 @@
 	.service {
 		display: block;
 		height: 60px;
-		.gradient();
 		border-bottom: 1px solid #CCCCCC;
 		list-style-type: none;
 
@@ -14,6 +13,10 @@
 			position: relative;
 			display: block;
 			height: 100%;
+			.gradient();
+			&:active {
+				.gradient(#EEEEEE, #FFFFFF);
+			}
 		}
 		.service-url {
 			display: block;

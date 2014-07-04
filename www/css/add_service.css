@@ -81,6 +81,15 @@ a span {
 .button.red {
   background-color: #FF8888;
 }
+.button:active {
+  background-color: #999999;
+}
+.button:active.green {
+  background-color: #66AA66;
+}
+.button:active.red {
+  background-color: #DD6666;
+}
 #actions {
   display: block;
   text-align: center;

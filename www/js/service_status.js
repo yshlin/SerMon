@@ -59,6 +59,14 @@ var app = {
             // });
             return false;
         });
+        document.getElementById('clear-logs').addEventListener('click', function(e) {
+            e.preventDefault();
+            db.removeOldServiceLogs(app.serviceId, 0, function(e) {
+                app.clearServiceData();
+                app.loadServiceData();
+            })
+            return false;
+        });
     },
     getLogTemplate: function() {
         var template = document.createElement('li');

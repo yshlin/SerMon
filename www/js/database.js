@@ -167,7 +167,7 @@ var db = {
             }
         }
     },
-    removeOldServiceLogs: function(serviceId, daysBefore) {
+    removeOldServiceLogs: function(serviceId, daysBefore, callback) {
         var logTransaction = db.connection.transaction(['service_log'], 'readwrite');
         var logObjectStore = logTransaction.objectStore('service_log');
         var index = logObjectStore.index('serviceId_timestamp');
@@ -179,6 +179,9 @@ var db = {
                 console.log(cursor.value);
                 cursor.delete();
                 cursor.continue();
+            }
+            else {
+                callback(event);
             }
         }
     }
