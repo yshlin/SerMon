@@ -42,8 +42,8 @@ $ ./init.sh
 ```
 
 **Making changes**
-All source code lies in the `www` folder.
-For platform-specific files, put them in the `merges` folder.
+* All source code lies in the `www` folder.
+* For platform-specific files, put them in the `merges` folder.
 
 **Build and Run**
 
