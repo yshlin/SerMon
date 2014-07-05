@@ -66,6 +66,9 @@ a span {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1);
   height: 48px;
   vertical-align: middle;
   background-color: #BBBBBB;
@@ -84,6 +87,9 @@ a span {
 }
 .button:active {
   background-color: #999999;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 .button:active.green {
   background-color: #66AA66;

@@ -63,6 +63,12 @@
   transition: @transition;
 }
 
+.box-shadow(@shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1)) {
+  -webkit-box-shadow: @shadow;
+  -moz-box-shadow: @shadow;
+  box-shadow: @shadow;
+}
+
 /* Default and shared styles */
 
 * {
@@ -102,6 +108,7 @@ a {
 .button {
     display: inline-block;
     .border-radius;
+    .box-shadow;
     height: 48px;
     vertical-align: middle;
     background-color: #BBBBBB;
@@ -119,6 +126,7 @@ a {
     }
     &:active {
         background-color: #999999;
+        .box-shadow(none);
         &.green {
             background-color: #66AA66;
         }

@@ -66,6 +66,9 @@ a span {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1);
   height: 48px;
   vertical-align: middle;
   background-color: #BBBBBB;
@@ -84,6 +87,9 @@ a span {
 }
 .button:active {
   background-color: #999999;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 .button:active.green {
   background-color: #66AA66;
@@ -403,4 +409,32 @@ span.indicator.gray {
   display: inline-block;
   list-style-type: none;
   padding: 10px;
+}
+#monitor-logs .index {
+  display: inline-block;
+  list-style-type: none;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #CCCCCC;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  font-size: 9px;
+}
+#monitor-logs .index > span {
+  display: block;
+  margin-top: 3px;
+  padding: 0 2px;
+}
+#monitor-logs .index > span > span {
+  display: block;
+  border-bottom: 1px solid #CCCCCC;
 }

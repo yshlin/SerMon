@@ -23,6 +23,7 @@ var app = {
     lastLogTimestamp: undefined,
     reachLogBottom: false,
     readyToLoadMore: false,
+    logIndices: [],
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -183,16 +184,54 @@ var app = {
     loadNewServiceLogData: function(service, callback) {
         db.getLatestLog(service.id, function(log) {
             if (log) {
+                //FIXME: this is not accurate, but the logic is already too complicated.
                 var logsContainer = document.getElementById('monitor-logs');
                 var fragment = document.createDocumentFragment();
-                fragment.appendChild(app.buildSkippedLog(service, log, undefined));
-                fragment.appendChild(app.buildCheckLog(log));
-                logsContainer.insertBefore(fragment, logsContainer.firstChild);
+                var checked = app.buildCheckLog(log);
+                var skipped = app.buildSkippedLog(service, log, undefined);
+                if (checked.querySelector('.index')) {
+                    logsContainer.insertBefore(checked, logsContainer.firstChild);
+                    logsContainer.insertBefore(skipped, logsContainer.firstChild);
+                }
+                else {
+                    var firstIndex = logsContainer.querySelector('.index');
+                    if (firstIndex) {
+                        logsContainer.insertBefore(checked, firstIndex.nextSibling);
+                        if (skipped.querySelector('.index')) {
+                            logsContainer.insertBefore(skipped, logsContainer.firstChild);
+                        }
+                        else {
+                            logsContainer.insertBefore(skipped, firstIndex.nextSibling);
+                        }
+                    }
+                    else {
+                        logsContainer.insertBefore(checked, logsContainer.firstChild);
+                        logsContainer.insertBefore(skipped, logsContainer.firstChild);
+                    }
+                }
             }
             if (callback) {
                 callback();
             }
         });
+    },
+    buildTimeIndex: function(timestamp) {
+        var logTime = new Date(timestamp);
+        var month = logTime.getMonth() + 1;
+        var day = logTime.getDate();
+        var hour = logTime.getHours();
+        var hour12 = (hour > 12) ? (hour - 12) : hour
+        var ampm = (hour / 12 >= 1) ? 'pm' : 'am';
+        var index = month+'-'+day+'-'+hour;
+        if (app.logIndices.indexOf(index) == -1) {
+            app.logIndices.push(index);
+            var idx = document.createElement('li');
+            idx.id = index;
+            idx.className = 'index';
+            idx.innerHTML = '<span><span>' + month + '/' + day + '</span>' + hour12 + ampm + '</span>';
+            return idx;
+        }
+        return null;
     },
     buildSkippedLog: function(service, log, prevLog) {
         var fragment = document.createDocumentFragment();
@@ -205,6 +244,11 @@ var app = {
         // console.log('Skipped '+skipped+' times.')
         if (skipped > 0) {
             for (var j = 0; j < skipped; j++) {
+                var skippedTimestamp = prevLogTimestamp - service.frequency * (j + 1) * 60 * 1000;
+                var idx = app.buildTimeIndex(skippedTimestamp);
+                if (idx) {
+                    fragment.appendChild(idx);
+                }
                 var outputSkipped = Transparency.render(app.getLogTemplate(), {}, {
                     indicator: {
                         class: function() {
@@ -214,7 +258,7 @@ var app = {
                             return 'System didn\'t wake up.';
                         },
                         'data-timestamp': function() {
-                            return prevLogTimestamp - service.frequency * (j + 1) * 60 * 1000;
+                            return skippedTimestamp;
                         }
                     }
                 });
@@ -225,7 +269,12 @@ var app = {
         return fragment;
     },
     buildCheckLog: function(log) {
+        var fragment = document.createDocumentFragment();
         var status = (log.statusCode >= 200) ? ''+log.statusCode+' '+log.statusText : log.errorMessage;
+        var idx = app.buildTimeIndex(log.timestamp);
+        if (idx) {
+            fragment.appendChild(idx);
+        }
         var output = Transparency.render(app.getLogTemplate(), {}, {
             indicator: {
                 class: function() {
@@ -240,7 +289,8 @@ var app = {
             }
         });
         output.addEventListener('click', Tooltip.show);
-        return output;
+        fragment.appendChild(output);
+        return fragment;
     },
     // deviceready Event Handler
     onDeviceReady: function() {
