@@ -23,7 +23,7 @@ Support
 
 Installation
 ------------
-**Prerequisites:**
+### Prerequisites
 * [git](http://git-scm.com/)
 * [npm (node.js)](http://nodejs.org/)
 * [cordova 3.5](http://cordova.apache.org)
@@ -33,7 +33,7 @@ Installation
 * [ios-sim](https://github.com/phonegap/ios-sim) for deployment on iOS simulator
 * [ios-deploy](https://github.com/phonegap/ios-deploy) for deployment on iOS devices (plus your developer program account of course)
 
-**Download and Setup**
+### Download and Setup
 
 ```sh
 $ git clone https://github.com/yshlin/SerMon
@@ -41,11 +41,11 @@ $ cd SerMon
 $ ./init.sh
 ```
 
-**Making changes**
+### Making changes
 * All source code lies in the `www` folder.
 * For platform-specific files, put them in the `merges` folder.
 
-**Build and Run**
+## Build and Run
 
 on Firefox OS:
 ```sh
@@ -80,4 +80,5 @@ $ cordova run ios
 Reference
 ---------
 * [Cordova documentation](http://cordova.apache.org/docs/en/3.5.0/)
-* [Testing your nativa android app - Mozilla Hacks](https://hacks.mozilla.org/2014/06/testing-your-native-android-app/)
+* [Testing your native android app - Mozilla Hacks](https://hacks.mozilla.org/2014/06/testing-your-native-android-app/)
+* [Using IndexedDB - MDN](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB)
