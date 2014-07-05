@@ -1,7 +1,7 @@
 SerMon
 ======
 
-Cordova (Phonegap) based simple service monitor app.
+A simple service monitor app based-on Cordova (Phonegap).
 
 
 Features
@@ -25,8 +25,8 @@ Installation
 ------------
 **Prerequisites:**
 * [git](http://git-scm.com/)
-* [npm (nodejs)](http://nodejs.org/)
-* [cordova](http://cordova.apache.org)
+* [npm (node.js)](http://nodejs.org/)
+* [cordova 3.5](http://cordova.apache.org)
 * [Android SDK](http://developer.android.com/sdk/index.html) for Firefox OS and Android devices
 * [mozilla-apk-cli](https://github.com/mozilla/apk-cli) for Open WebApp on android.
 * [iOS SDK](https://developer.apple.com/devcenter/ios/index.action) for iOS devices/simulator
@@ -40,6 +40,10 @@ $ git clone https://github.com/yshlin/SerMon
 $ cd SerMon
 $ ./init.sh
 ```
+
+**Making changes**
+All source code lies in the `www` folder.
+For platform-specific files, put them in the `merges` folder.
 
 **Build and Run**
 
@@ -72,3 +76,8 @@ on iOS device:
 $ cordova build ios 
 $ cordova run ios
 ```
+
+Reference
+---------
+* [Cordova documentation](http://cordova.apache.org/docs/en/3.5.0/)
+* [Testing your nativa android app - Mozilla Hacks](https://hacks.mozilla.org/2014/06/testing-your-native-android-app/)
