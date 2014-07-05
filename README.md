@@ -21,8 +21,8 @@ Support
 * Android: tested on emulator 4.4, chromium-based WebView is required for IndexedDB.
 * iOS: not working, waiting for IndexedDB support on iOS safari 8.
 
-Installation
-------------
+Contribute
+----------
 ### Prerequisites
 * [git](http://git-scm.com/)
 * [npm (node.js)](http://nodejs.org/)
@@ -45,7 +45,7 @@ $ ./init.sh
 * All source code lies in the `www` folder.
 * For platform-specific files, put them in the `merges` folder.
 
-## Build and Run
+### Build and Run
 
 on Firefox OS:
 ```sh
