@@ -11,7 +11,7 @@ Features
 * Simple and elegant user interface.
 * Add/modify/remove service profile.
 * Check service status periodically in the background.
-* Cleanup old logs everyday, keep logs for 1 week.
+* Cleanup old logs everyday, keep latest 1200 logs.
 
 
 Support

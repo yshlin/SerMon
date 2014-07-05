@@ -19,7 +19,8 @@
 
 var db = {
     connection: undefined,
-    logsPerPage: 120,
+    logsPerPage: 240,
+    maxLogSize: 1200,
     initialize: function(callback) {
         var request = indexedDB.open('sermon', 1);
         request.onerror = function(event) {
@@ -203,6 +204,33 @@ var db = {
             }
             else {
                 callback(logsPage);
+            }
+        }
+    },
+    removeOldServiceLogsBySize: function(serviceId, callback) {
+        var logTransaction = db.connection.transaction(['service_log'], 'readwrite');
+        var logObjectStore = logTransaction.objectStore('service_log');
+        var index = logObjectStore.index('serviceId');
+        var cursor = index.openCursor(IDBKeyRange.only(serviceId), 'prev');
+        var advaced = false;
+        var removeCount = 0;
+        cursor.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (!advaced) {
+                cursor.advance(db.maxLogSize);
+                advaced = true;
+            }
+            else {
+                if (cursor) {
+                    // console.log(cursor.value);
+                    cursor.delete();
+                    removeCount++;
+                    cursor.continue();
+                }
+                else {
+                    event.removeCount = removeCount;
+                    callback(event);
+                }
             }
         }
     },

@@ -21,6 +21,7 @@ var app = {
     wifiLock: undefined,
     connected: false,
     tasks: {},
+    lastCleanup: undefined,
     getServiceTemplate: function() {
         var template = document.createElement('li');
         template.className = 'service';
@@ -165,6 +166,7 @@ var app = {
                     Loading.hide();
                 }
             });
+            app.scheduleCleanup();
         });
     },
     renderService: function(service) {
@@ -282,6 +284,22 @@ var app = {
                 app.logServiceStatus(serviceId, {indicator: 'gray', errorMessage: e.name + ': ' + e.message}, callback);
             }
         // }
+    },
+    scheduleCleanup: function() {
+        chronos.setInterval(function() {
+            var now = new Date();
+            var hours = now.getHours();
+            if (hours >= 2 && hours <= 6 && (!app.lastCleanup || (now.getTime() - app.lastCleanup) > 20 * 60 * 60 * 1000)) {
+                app.lastCleanup = now.getTime();
+                db.listServices(function(service) {
+                    if (service) {
+                        db.removeOldServiceLogsBySize(service.id, function(e) {
+                            console.log('Removed '+e.removeCount+' logs for '+service.url+'.');
+                        });
+                    }
+                });
+            }
+        }, 60 * 60 *1000);
     }
 };
 

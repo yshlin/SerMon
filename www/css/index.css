@@ -367,12 +367,12 @@ span.indicator.gray {
   background: -o-linear-gradient(top, #ffffff, #eeeeee);
 }
 #services .service .service-link:active {
-  background-color: #eeeeee;
-  background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#ffffff));
-  background: -webkit-linear-gradient(top, #eeeeee, #ffffff);
-  background: -moz-linear-gradient(top, #eeeeee, #ffffff);
-  background: -ms-linear-gradient(top, #eeeeee, #ffffff);
-  background: -o-linear-gradient(top, #eeeeee, #ffffff);
+  background-color: #bbbbbb;
+  background: -webkit-gradient(linear, left top, left bottom, from(#bbbbbb), to(#dddddd));
+  background: -webkit-linear-gradient(top, #bbbbbb, #dddddd);
+  background: -moz-linear-gradient(top, #bbbbbb, #dddddd);
+  background: -ms-linear-gradient(top, #bbbbbb, #dddddd);
+  background: -o-linear-gradient(top, #bbbbbb, #dddddd);
 }
 #services .service .service-url {
   display: block;
