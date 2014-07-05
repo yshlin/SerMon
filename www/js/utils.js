@@ -102,7 +102,6 @@ var Tooltip = {
     },
     show: function()
     {
-        console.log('show tooltip');
         Tooltip.target = this;
         var tip;
         if (Tooltip.contentGenerator) {
@@ -111,11 +110,11 @@ var Tooltip = {
         else {
             tip = Tooltip.target['title'];
         }
-        if( !tip || tip == '' ) {            
+        if (!tip || tip == '') {            
             return false;
         }
         Tooltip.tooltip.innerHTML = tip ;
-        if( window.innerWidth < Tooltip.tooltip.offsetWidth * 1.5 ) {
+        if (window.innerWidth < Tooltip.tooltip.offsetWidth * 1.5) {
             Tooltip.tooltip.style.maxWidth = (window.innerWidth / 2)+'px';
         }
         else {
@@ -124,22 +123,29 @@ var Tooltip = {
         
         var pos_left = Tooltip.target.offsetLeft + ( Tooltip.target.offsetWidth / 2 ) - ( Tooltip.tooltip.offsetWidth / 2 ),
             pos_top  = Tooltip.target.offsetTop - Tooltip.tooltip.offsetHeight - 20;
-        Tooltip.tooltip.className = '';
-        if( pos_left < 0 )
-        {
+
+        if (pos_left < 0) {
             pos_left = Tooltip.target.offsetLeft + Tooltip.target.offsetWidth / 2 - 20;
             Tooltip.tooltip.className += ' left';
         }
+        else {
+            Tooltip.tooltip.className = Tooltip.tooltip.className.replace('left', '');
+        }
         
-        if( pos_left + Tooltip.tooltip.offsetWidth > window.innerWidth ) {
+        if (pos_left + Tooltip.tooltip.offsetWidth > window.innerWidth) {
             pos_left = Tooltip.target.offsetLeft - Tooltip.tooltip.offsetWidth + Tooltip.target.offsetWidth / 2 + 20;
             Tooltip.tooltip.className +=' right';
         }
+        else {
+            Tooltip.tooltip.className = Tooltip.tooltip.className.replace('right', '');
+        }
         
-        if( pos_top < 0 )
-        {
+        if (pos_top < 0) {
             var pos_top  = Tooltip.target.offsetTop + Tooltip.target.offsetHeight;
             Tooltip.tooltip.className += ' top';
+        }
+        else {
+            Tooltip.tooltip.className = Tooltip.tooltip.className.replace('top', '');
         }
         
         Tooltip.tooltip.style.left = pos_left + 'px';
@@ -149,6 +155,6 @@ var Tooltip = {
     },
     hide: function()
     {
-        Tooltip.tooltip.className = Tooltip.tooltip.className.replace('show', '');
+        Tooltip.tooltip.className = '';
     }
 };

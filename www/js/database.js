@@ -19,7 +19,7 @@
 
 var db = {
     connection: undefined,
-
+    logsPerPage: 120,
     initialize: function(callback) {
         var request = indexedDB.open('sermon', 1);
         request.onerror = function(event) {
@@ -164,6 +164,45 @@ var db = {
             }
             else {
                 callback(undefined);
+            }
+        }
+    },
+    getLatestLog: function(serviceId, callback) {
+        db.getServiceLogsPageWithSize(serviceId, new Date().getTime(), 1, function(logs) {
+            if (logs && logs.length > 0) {
+                callback(logs[0]);
+            }
+            else {
+                callback(undefined);
+            }
+        });
+    },
+    getServiceLogsPage: function(serviceId, prevLogTimestamp, callback) {
+        db.getServiceLogsPageWithSize(serviceId, prevLogTimestamp, db.logsPerPage, callback);
+    },
+    getServiceLogsPageWithSize: function(serviceId, prevLogTimestamp, pageSize, callback) {
+        var transaction = db.connection.transaction(['service_log']);
+        var objectStore = transaction.objectStore('service_log');
+        var index = objectStore.index('serviceId_timestamp');
+        var cursor = index.openCursor(
+            IDBKeyRange.bound([serviceId, 0], [serviceId, prevLogTimestamp], false, true), 'prev');
+        var count = 0;
+        var logsPage = [];
+        cursor.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                if (count < pageSize) {
+                    // console.log(cursor.value);
+                    logsPage.push(cursor.value);
+                    cursor.continue();
+                    count++;
+                }
+                else {
+                    callback(logsPage);
+                }
+            }
+            else {
+                callback(logsPage);
             }
         }
     },

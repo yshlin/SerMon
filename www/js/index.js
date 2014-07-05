@@ -75,6 +75,9 @@ var app = {
                 Loading.hide();
                 return;
             }
+            else if (e.data == 'back-to-list' || e.data == 'cancel-service-add') {
+                Loading.hide();
+            }
             else if (e.data.startsWith('check-service-')) {
                 // check service
                 var serviceId = parseInt(e.data.substring(14));

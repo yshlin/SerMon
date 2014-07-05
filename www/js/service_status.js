@@ -19,6 +19,10 @@
 
 var app = {
     serviceId: undefined,
+    service: undefined,
+    lastLogTimestamp: undefined,
+    reachLogBottom: false,
+    readyToLoadMore: false,
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -27,14 +31,24 @@ var app = {
     // Bind Event Listeners
     bindEvents: function() {
         // document.addEventListener('deviceready', this.onDeviceReady, false);
+        window.onscroll = function(ev) {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                // you're at the bottom of the page
+                if (app.readyToLoadMore && !app.reachLogBottom) {
+                    parent.postMessage('show-loading', '*');
+                    app.loadServiceLogData(app.service, function() {
+                        parent.postMessage('hide-loading', '*');
+                    });
+                }
+            }
+        };
         window.addEventListener('message', function(e) {
-            console.log(e.data);
+            // console.log(e.data);
             if (e.data.startsWith('service-checked-')) {
                 var checkedId = parseInt(e.data.substring(16));
                 if (checkedId && app.serviceId == checkedId) {
-                    app.clearServiceData();
                     parent.postMessage('show-loading', '*');
-                    app.loadServiceData(function() {
+                    app.loadNewServiceLogData(app.service, function() {
                         parent.postMessage('hide-loading', '*');
                     });
                 }
@@ -108,12 +122,14 @@ var app = {
         }
     },
     clearServiceData: function() {
+        app.lastLogTimestamp = undefined;
+        app.readyToLoadMore = false;
         var logs = document.getElementById('monitor-logs');
         logs.innerHTML = '';
     },
     loadServiceData: function(callback) {
         db.getService(app.serviceId, function(service) {
-            console.log(service);
+            // console.log(service);
             if (service) {
                 Transparency.render(document.getElementById('service-status'), {
                     'service-url': service.url,
@@ -126,61 +142,105 @@ var app = {
                         }
                     }
                 });
-                db.listServiceLogs(app.serviceId, function(log) {
-                    if (log) {
-                        // console.log(log);
-                        var logs = document.getElementById('monitor-logs');
-                        //fills empty indicators, but can't get the time diff right due to callback timing.
-                        /*
-                        if (logs.children.length > 0) {
-                            var prevLog = logs.lastChild;
-                            var diff = parseInt(prevLog.firstChild['data-timestamp']) - log.timestamp;
-                            var skipped = Math.round(diff / 1000 / service.frequency) - 1;
-                            console.log('Skipped '+skipped+' times.')
-                            if (skipped > 0) {
-                                for (var i = 0; i < skipped; i++) {
-                                    var outputSkipped = Transparency.render(app.getLogTemplate(), {}, {
-                                        indicator: {
-                                            class: function() {
-                                                return 'indicator';
-                                            },
-                                            title: function() {
-                                                return 'System didn\'t wake up, skipped.';
-                                            },
-                                            'data-timestamp': function() {
-                                                return log.timestamp - service.frequency * (i + 1);
-                                            }
-                                        }
-                                    });
-                                    logs.appendChild(outputSkipped);
-                                }
-                            }
-                        }*/
-                        var status = (log.statusCode >= 200) ? ''+log.statusCode+' '+log.statusText : log.errorMessage;
-                        var output = Transparency.render(app.getLogTemplate(), {}, {
-                            indicator: {
-                                class: function() {
-                                    return 'indicator ' + log.indicator;
-                                },
-                                title: function() {
-                                    return status;
-                                },
-                                'data-timestamp': function() {
-                                    return log.timestamp;
-                                }
-                            }
-                        });
-                        output.addEventListener('click', Tooltip.show);
-                        logs.appendChild(output);
+                app.service = service;
+                app.loadServiceLogData(service, callback);
+            }
+        });
+    },
+    loadServiceLogData: function(service, callback) {
+        app.readyToLoadMore = false;
+        if (!app.lastLogTimestamp) {
+            app.lastLogTimestamp = new Date().getTime();
+        }
+        db.getServiceLogsPage(service.id, app.lastLogTimestamp, function(logs) {
+            if (logs && logs.length > 0) {
+                // console.log(log);
+                var logsContainer = document.getElementById('monitor-logs');
+                var fragment = document.createDocumentFragment();
+                var log = undefined;
+                for (var i = 0; i < logs.length; i++) {
+                    log = logs[i];
+                    //fills empty indicators
+                    var prevLog = logs[i-1];
+                    if (!prevLog) {
+                        prevLog = {timestamp: app.lastLogTimestamp};
                     }
-                    else {
-                        if (callback) {
-                            callback();
+                    fragment.appendChild(app.buildSkippedLog(service, log, prevLog));
+                    fragment.appendChild(app.buildCheckLog(log));
+                }
+                app.lastLogTimestamp = log.timestamp;
+                logsContainer.appendChild(fragment);
+            }
+            else {
+                app.reachLogBottom = true;
+            }
+            if (callback) {
+                callback();
+            }
+            app.readyToLoadMore = true;
+        });
+    },
+    loadNewServiceLogData: function(service, callback) {
+        db.getLatestLog(service.id, function(log) {
+            if (log) {
+                var logsContainer = document.getElementById('monitor-logs');
+                var fragment = document.createDocumentFragment();
+                fragment.appendChild(app.buildSkippedLog(service, log, undefined));
+                fragment.appendChild(app.buildCheckLog(log));
+                logsContainer.insertBefore(fragment, logsContainer.firstChild);
+            }
+            if (callback) {
+                callback();
+            }
+        });
+    },
+    buildSkippedLog: function(service, log, prevLog) {
+        var fragment = document.createDocumentFragment();
+        var prevLogTimestamp = new Date().getTime();
+        if (prevLog) {
+            prevLogTimestamp = prevLog.timestamp;
+        }                            
+        var diff = prevLogTimestamp - log.timestamp;
+        var skipped = Math.round(diff / 60 / 1000 / service.frequency) - 1;
+        // console.log('Skipped '+skipped+' times.')
+        if (skipped > 0) {
+            for (var j = 0; j < skipped; j++) {
+                var outputSkipped = Transparency.render(app.getLogTemplate(), {}, {
+                    indicator: {
+                        class: function() {
+                            return 'indicator';
+                        },
+                        title: function() {
+                            return 'System didn\'t wake up.';
+                        },
+                        'data-timestamp': function() {
+                            return prevLogTimestamp - service.frequency * (j + 1) * 60 * 1000;
                         }
                     }
                 });
+                outputSkipped.addEventListener('click', Tooltip.show);
+                fragment.appendChild(outputSkipped);
+            }
+        }
+        return fragment;
+    },
+    buildCheckLog: function(log) {
+        var status = (log.statusCode >= 200) ? ''+log.statusCode+' '+log.statusText : log.errorMessage;
+        var output = Transparency.render(app.getLogTemplate(), {}, {
+            indicator: {
+                class: function() {
+                    return 'indicator ' + log.indicator;
+                },
+                title: function() {
+                    return status;
+                },
+                'data-timestamp': function() {
+                    return log.timestamp;
+                }
             }
         });
+        output.addEventListener('click', Tooltip.show);
+        return output;
     },
     // deviceready Event Handler
     onDeviceReady: function() {

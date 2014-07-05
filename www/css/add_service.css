@@ -32,6 +32,7 @@ body {
   /* prevent webkit from resizing text to fit */
 
   -webkit-user-select: none;
+  -moz-user-select: none;
   /* prevent copy paste, to allow, change 'none' to 'text' */
 
   font-family: Arial, sans-serif;
