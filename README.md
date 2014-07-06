@@ -77,6 +77,16 @@ $ cordova build ios
 $ cordova run ios
 ```
 
+Trouble Shooting
+----------------
+Q: Why the log always shows 'No connection'?  
+A: Pleas check your network connection, and make sure your server supports HTTP 'HEAD' request, sometimes it works for certain path.
+
+
+Q: Why it didn't run in the background?  
+A: You must manually open the app again after system restart, and make sure you (or the GC) didn't kill the app in the recent app list.
+
+
 Reference
 ---------
 * [Cordova documentation](http://cordova.apache.org/docs/en/3.5.0/)
