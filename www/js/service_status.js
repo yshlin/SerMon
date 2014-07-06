@@ -125,6 +125,8 @@ var app = {
     clearServiceData: function() {
         app.lastLogTimestamp = undefined;
         app.readyToLoadMore = false;
+        app.reachLogBottom = false;
+        app.logIndices = [];
         var logs = document.getElementById('monitor-logs');
         logs.innerHTML = '';
     },
