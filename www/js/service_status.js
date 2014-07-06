@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+"use strict";
 
 var app = {
     serviceId: undefined,
@@ -45,7 +46,7 @@ var app = {
         };
         window.addEventListener('message', function(e) {
             // console.log(e.data);
-            if (e.data.startsWith('service-checked-')) {
+            if (startsWith(e.data, 'service-checked-')) {
                 var checkedId = parseInt(e.data.substring(16));
                 if (checkedId && app.serviceId == checkedId) {
                     parent.postMessage('show-loading', '*');

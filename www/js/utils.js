@@ -1,3 +1,15 @@
+"use strict";
+
+function notify(title, message) {
+    if (device.platform == 'firefoxos') {
+        var n = new Notification(title + ': ' + message);
+    }
+    else {
+        window.plugin.notification.local.add({title: title, message: message, led: 'FF0000'});
+    }    
+    navigator.notification.vibrate(2200);
+}
+
 function prettyDate(time){
     var date = new Date(time),
         diff = (((new Date()).getTime() - date.getTime()) / 1000),
@@ -29,12 +41,12 @@ function getQueryParameters(name) {
     return '';
 }
 
-String.prototype.endsWith = function(suffix) {
-    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+ function endsWith(str, suffix) {
+    return str.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
-String.prototype.startsWith = function(suffix) {
-    return this.indexOf(suffix) == 0;
+function startsWith(str, suffix) {
+    return str.indexOf(suffix) == 0;
 };
 
 var Popup = {

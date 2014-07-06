@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+"use strict";
 
 var app = {
     wifiLock: undefined,
@@ -64,6 +65,11 @@ var app = {
             Popup.show('add_service.html');
             return false;
         });
+        // document.getElementById('help').addEventListener('click', function(e) {
+            // e.preventDefault();
+            // notify('Hello world!', 'Hihi.');
+            // return false;
+        // });
         // document.addEventListener('online', function() { app.connected = true; console.log('Now online.'); });
         // document.addEventListener('offline', function() { app.connected = false; console.log('Now offline.'); });
         window.addEventListener('message', function(e) {
@@ -79,7 +85,7 @@ var app = {
             else if (e.data == 'back-to-list' || e.data == 'cancel-service-add') {
                 Loading.hide();
             }
-            else if (e.data.startsWith('check-service-')) {
+            else if (startsWith(e.data, 'check-service-')) {
                 // check service
                 var serviceId = parseInt(e.data.substring(14));
                 Loading.show();
@@ -91,12 +97,12 @@ var app = {
                 });
                 return;
             }
-            else if (e.data.startsWith('edit-service-')) {
+            else if (startsWith(e.data, 'edit-service-')) {
                 var serviceId = parseInt(e.data.substring(13));
                 Popup.show('add_service.html?id='+serviceId);
                 return;
             }
-            else if (e.data.startsWith('add-service-')) {
+            else if (startsWith(e.data, 'add-service-')) {
                 // render newly added service
                 var serviceId = parseInt(e.data.substring(12));
                 chronos.clearInterval(app.tasks[serviceId]);
@@ -119,7 +125,7 @@ var app = {
                     }
                 });
             }
-            else if (e.data.startsWith('delete-service-')) {
+            else if (startsWith(e.data, 'delete-service-')) {
                 // remove deleted service from UI
                 var serviceId = parseInt(e.data.substring(15));
                 Loading.show();
@@ -262,13 +268,7 @@ var app = {
                     else if (status != 200) {
                         //service down
                         app.logServiceStatus(serviceId, {indicator: 'red', statusCode: status, statusText: statusText}, callback);
-                        navigator.notification.vibrate(2200);
-                        if (device.platform == 'firefoxos') {
-                            var n = new Notification('Server Down Alert: '+url);
-                        }
-                        else {
-                            window.plugin.notification.local.add({title: 'Server Down Alert', message: url, led: 'FF0000'});
-                        }
+                        notify('Service Down Alert', url);
                     }
                     else {
                         //service is fine

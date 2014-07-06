@@ -1,22 +1,25 @@
 {
     "name": "SerMon",
-    "pkgName": "in.yshl.sermon",
-    "description": "A sample Apache Cordova application that responds to the deviceready event.",
-    "version": "0.0.1",
+    "description": "A simple service monitor app based-on Cordova (Phonegap).",
+    "version": "1",
     "type": "privileged",
     "launch_path": "/index.html",
     "installs_allowed_from": [
         "*"
     ],
     "developer": {
-        "name": "Apache Cordova Team",
-        "url": "http://cordova.io"
+        "name": "Eddie Lin",
+        "url": "http://yshl.in"
     },
     "icons": {
         "128": "/img/logo.png"
     },
     "permissions": {
-        "systemXHR" : {},
-        "desktop-notification":{}
+        "systemXHR" : {
+            "description": "Used to check service status."
+        },
+        "desktop-notification":{
+            "description": "Notifies when server returns unusual status code."
+        }
     }
 }
