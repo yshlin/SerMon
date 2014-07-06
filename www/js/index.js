@@ -213,7 +213,7 @@ var app = {
     },
     urlStatus: function (url, callback)
     {
-        var http = new XMLHttpRequest({mozSystem: true});
+        var http = new XMLHttpRequest({mozAnon: true, mozSystem: true});
         http.onreadystatechange = function() {
             switch(http.readyState) {
                 case 2:

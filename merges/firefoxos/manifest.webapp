@@ -1,7 +1,7 @@
 {
     "name": "SerMon",
     "description": "A simple service monitor app based-on Cordova (Phonegap).",
-    "version": "1",
+    "version": "1.0.1",
     "type": "privileged",
     "launch_path": "/index.html",
     "installs_allowed_from": [

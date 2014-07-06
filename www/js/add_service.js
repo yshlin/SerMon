@@ -96,6 +96,15 @@ var app = {
             }
             return false;
         }
+        document.getElementById('scheme').addEventListener('change', function(e) {
+            var portInput = document.getElementById('port');
+            if (this.value == 'http') {
+                portInput.value = 80;
+            }
+            else if (this.value == 'https') {
+                portInput.value = 443;
+            }
+        });
         form.addEventListener('submit', saveService);
         document.getElementById('add-service').addEventListener('click', saveService);
         document.getElementById('cancel-service-add').addEventListener('click', function(e) {

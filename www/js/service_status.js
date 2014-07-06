@@ -50,8 +50,15 @@ var app = {
                 var checkedId = parseInt(e.data.substring(16));
                 if (checkedId && app.serviceId == checkedId) {
                     parent.postMessage('show-loading', '*');
-                    app.loadNewServiceLogData(app.service, function() {
-                        parent.postMessage('hide-loading', '*');
+                    db.getService(app.serviceId, function(service) {
+                        // console.log(service);
+                        if (service) {
+                            app.renderServiceData(service);
+                            app.service = service;
+                            app.loadNewServiceLogData(app.service, function() {
+                                parent.postMessage('hide-loading', '*');
+                            });
+                        }
                     });
                 }
             }
@@ -135,17 +142,7 @@ var app = {
         db.getService(app.serviceId, function(service) {
             // console.log(service);
             if (service) {
-                Transparency.render(document.getElementById('service-status'), {
-                    'service-url': service.url,
-                    'check-frequency': app.getFrequencyLabel(service.frequency),
-                    'last-checked': service.lastCheck ? new Date(service.lastCheck).toLocaleString() : 'Never'
-                }, {
-                    'latest-status': {
-                        html: function() {
-                            return '<span class="indicator '+service.indicator+'"></span>'+service.latestStatus;
-                        }
-                    }
-                });
+                app.renderServiceData(service);
                 app.service = service;
                 app.loadServiceLogData(service, callback);
             }
@@ -215,6 +212,19 @@ var app = {
             }
             if (callback) {
                 callback();
+            }
+        });
+    },
+    renderServiceData: function(service) {
+        Transparency.render(document.getElementById('service-status'), {
+            'service-url': service.url,
+            'check-frequency': app.getFrequencyLabel(service.frequency),
+            'last-checked': service.lastCheck ? new Date(service.lastCheck).toLocaleString() : 'Never'
+        }, {
+            'latest-status': {
+                html: function() {
+                    return '<span class="indicator '+service.indicator+'"></span>'+service.latestStatus;
+                }
             }
         });
     },
