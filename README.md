@@ -5,9 +5,9 @@ A simple service monitor app based-on Cordova (Phonegap).
 
 Screenshots
 -----------
-![Service List](https://raw.githubusercontent.com/yshlin/SerMon/master/screenshots/service_list.png)
-![Add Service](https://raw.githubusercontent.com/yshlin/SerMon/master/screenshots/add_service.png)
-![Service Status](https://raw.githubusercontent.com/yshlin/SerMon/master/screenshots/service_status.png)
+![Service List](https://raw.githubusercontent.com/yshlin/SerMon/master/screenshots/service_list.png?v=2)
+![Add Service](https://raw.githubusercontent.com/yshlin/SerMon/master/screenshots/add_service.png?v=2)
+![Service Status](https://raw.githubusercontent.com/yshlin/SerMon/master/screenshots/service_status.png?v=2)
 
 
 Features
