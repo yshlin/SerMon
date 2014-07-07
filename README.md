@@ -17,8 +17,9 @@ Features
 * Simple and elegant user interface.
 * Add/modify/remove service profile.
 * Check service status periodically in the background.
+* View all check logs, loaded page by page.
 * Cleanup old logs everyday, keep latest 1200 logs.
-
+* Safe and secure, all data stores locally.
 
 Support
 -------
@@ -85,13 +86,19 @@ $ cordova run ios
 
 Trouble Shooting
 ----------------
-Q: Why the log always shows 'No connection'?  
+**Q: Why the log always shows 'No connection'?**  
 A: Pleas check your network connection, and make sure your server supports HTTP 'HEAD' request, sometimes it works for certain path.
 
 
-Q: Why it didn't run in the background?  
+**Q: Why it didn't check in the background?**  
 A: You must manually open the app again after system restart, and make sure you (or the GC) didn't kill the app in the recent app list.
 
+
+**Q: Why it always shows 'Checke just now'? **  
+A: The last check time is updated when app resumes, so you can check updates by turning the screen off and on, or by switching the app off and back.
+
+**Q: My battery is low, how can I turn the background check off?**  
+A: Just terminate the app from the recent app list.
 
 Reference
 ---------

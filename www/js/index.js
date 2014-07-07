@@ -37,6 +37,14 @@ var app = {
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
+    onResume: function() {
+        var lastChecks = document.getElementsByClassName('last-check');
+        for (var i = 0; i < lastChecks.length; i++) {
+            var timestamp = parseInt(lastChecks[i]['data-timestamp']);
+            var prettyTime = (timestamp ? 'Checked ' + prettyDate(timestamp) : 'Never checked');
+            lastChecks[i].innerHTML = prettyTime;
+        }
+    },
     bindEvents: function() {
         window.addEventListener('load', function () {
           Notification.requestPermission(function (status) {
@@ -146,6 +154,17 @@ var app = {
     onDeviceReady: function() {
         console.log('Device Ready!');
         // console.log('Connection type: ' + navigator.connection.type);
+        if (device.platform == 'firefoxos') {
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    app.onResume();
+                }
+            }, false);
+        }
+        else {
+            document.addEventListener("resume", app.onResume, false);
+        }
+
         Popup.initialize();
         Loading.initialize();
         Loading.show();
@@ -187,6 +206,11 @@ var app = {
             'service-link': {
                 href: function() {
                     return '/service_status.html?id='+service.id
+                },
+                'last-check': {
+                    'data-timestamp': function() {
+                        return service.lastCheck;
+                    }
                 },
                 indicator: {
                     class: function() {
