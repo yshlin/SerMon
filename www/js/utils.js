@@ -1,5 +1,10 @@
 "use strict";
 
+document.body.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+}, false);
+
 function notify(title, message) {
     if (device.platform == 'firefoxos') {
         var n = new Notification(title + ': ' + message);

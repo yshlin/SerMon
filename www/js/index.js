@@ -126,9 +126,9 @@ var app = {
                             }, service.frequency * 60 * 1000);                
                             app.tasks[service.id] = taskId;
                         }
-                        else {
-                            app.checkServiceStatus(service.id, service.url);
-                        }
+                        // else {
+                            // app.checkServiceStatus(service.id, service.url);
+                        // }
                         Loading.hide();
                     }
                 });
@@ -183,9 +183,9 @@ var app = {
                         }, service.frequency * 60 * 1000);                
                         app.tasks[service.id] = taskId;
                     }
-                    else {
-                        app.checkServiceStatus(service.id, service.url);
-                    }
+                    // else {
+                        // app.checkServiceStatus(service.id, service.url);
+                    // }
                 }
                 else {
                     Loading.hide();

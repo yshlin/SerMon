@@ -248,35 +248,37 @@ var app = {
     },
     buildSkippedLog: function(service, log, prevLog) {
         var fragment = document.createDocumentFragment();
-        var prevLogTimestamp = new Date().getTime();
-        if (prevLog) {
-            prevLogTimestamp = prevLog.timestamp;
-        }                            
-        var diff = prevLogTimestamp - log.timestamp;
-        var skipped = Math.round(diff / 60 / 1000 / service.frequency) - 1;
-        // console.log('Skipped '+skipped+' times.')
-        if (skipped > 0) {
-            for (var j = 0; j < skipped; j++) {
-                var skippedTimestamp = prevLogTimestamp - service.frequency * (j + 1) * 60 * 1000;
-                var idx = app.buildTimeIndex(skippedTimestamp);
-                if (idx) {
-                    fragment.appendChild(idx);
-                }
-                var outputSkipped = Transparency.render(app.getLogTemplate(), {}, {
-                    indicator: {
-                        class: function() {
-                            return 'indicator';
-                        },
-                        title: function() {
-                            return 'System didn\'t wake up.';
-                        },
-                        'data-timestamp': function() {
-                            return skippedTimestamp;
-                        }
+        if (service.frequency > 0) {
+            var prevLogTimestamp = new Date().getTime();
+            if (prevLog) {
+                prevLogTimestamp = prevLog.timestamp;
+            }                            
+            var diff = prevLogTimestamp - log.timestamp;
+            var skipped = Math.round(diff / 60 / 1000 / service.frequency) - 1;
+            // console.log('Skipped '+skipped+' times.')
+            if (skipped > 0) {
+                for (var j = 0; j < skipped; j++) {
+                    var skippedTimestamp = prevLogTimestamp - service.frequency * (j + 1) * 60 * 1000;
+                    var idx = app.buildTimeIndex(skippedTimestamp);
+                    if (idx) {
+                        fragment.appendChild(idx);
                     }
-                });
-                outputSkipped.addEventListener('click', Tooltip.show);
-                fragment.appendChild(outputSkipped);
+                    var outputSkipped = Transparency.render(app.getLogTemplate(), {}, {
+                        indicator: {
+                            class: function() {
+                                return 'indicator';
+                            },
+                            title: function() {
+                                return 'System didn\'t wake up.';
+                            },
+                            'data-timestamp': function() {
+                                return skippedTimestamp;
+                            }
+                        }
+                    });
+                    outputSkipped.addEventListener('click', Tooltip.show);
+                    fragment.appendChild(outputSkipped);
+                }
             }
         }
         return fragment;

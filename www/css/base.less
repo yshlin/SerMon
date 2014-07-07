@@ -69,6 +69,11 @@
   box-shadow: @shadow;
 }
 
+.user-select(@settings) {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
 /* Default and shared styles */
 
 * {
@@ -79,8 +84,7 @@ body {
     -webkit-text-size-adjust: 100%;
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    -moz-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    .user-select(none);                         /* prevent copy paste, to allow, change 'none' to 'text' */
     font-family: Arial, sans-serif;
     font-size:14px;
     color: #484848;
@@ -115,6 +119,7 @@ a {
     line-height: 48px;
     padding: 0 12px;
     color: #FFFFFF;
+    .user-select(none);
     span {
         color: #FFFFFF;
     }
