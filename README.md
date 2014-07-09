@@ -2,6 +2,10 @@ SerMon
 ======
 
 A simple service monitor app based-on Cordova (Phonegap).
+If you have your own website/web service/web app, 
+you can use this app to monitor server availability. 
+It notifies you when server returns unusual status code.
+
 
 Screenshots
 -----------
@@ -94,8 +98,9 @@ A: Pleas check your network connection, and make sure your server supports HTTP 
 A: You must manually open the app again after system restart, and make sure you (or the GC) didn't kill the app in the recent app list.
 
 
-**Q: Why it always shows 'Checke just now'? **  
+**Q: Why it always shows 'Checked just now'?**  
 A: The last check time is updated when app resumes, so you can check updates by turning the screen off and on, or by switching the app off and back.
+
 
 **Q: My battery is low, how can I turn the background check off?**  
 A: Just terminate the app from the recent app list.
