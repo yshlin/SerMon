@@ -43,6 +43,13 @@ body {
   margin: 0;
   padding: 0;
 }
+.app:after {
+  content: " ";
+  clear: both;
+  display: block;
+  width: 100%;
+  height: 48px;
+}
 h1,
 h2,
 h3,

@@ -28,7 +28,8 @@ Features
 Support
 -------
 * Firefox OS: works fine, tested on unagi (b2g 1.4) and flame (b2g 2.1).
-* Android Open Web App: problem using privileged permissions, tested on Samsung I9100, require Firefox for Android installed.
+* Open Web App for Android: works fine, tested on Samsung I9100, require Firefox for Android installed.
+* Open Web App for Desktop: works fine, tested on OSX 10.9, Ubuntu 12, Windows 7, require Firefox installed.
 * Android: works fine on emulator 4.4, chromium-based WebView is required for IndexedDB.
 * iOS: not working, waiting for IndexedDB support on iOS safari 8.
 
@@ -64,7 +65,7 @@ $ cordova build firefoxos
 $ cordova run firefoxos
 ```
 
-Open WebApp on Android:
+Open Web App for Android:
 ```sh
 $ mozilla-apk-cli ./platforms/firefoxos/www/ sermon.apk
 $ adb install sermon.apk
