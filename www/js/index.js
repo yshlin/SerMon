@@ -193,6 +193,7 @@ var app = {
             });
             app.scheduleCleanup();
         });
+        app.runAds();
     },
     renderService: function(service) {
         // console.info(service);
@@ -324,6 +325,38 @@ var app = {
                 });
             }
         }, 60 * 60 *1000);
+    },
+    runAds: function() {
+        if (device.platform == 'Android' && window.plugins && window.plugins.AdMob) {
+            var adId = 'ca-app-pub-6523412083917723/5456359607';
+            var am = window.plugins.AdMob;
+
+            am.createBannerView( 
+                {
+                    'publisherId': adId,
+                    'adSize': am.AD_SIZE.BANNER,
+                    'bannerAtTop': false,
+                    'overlap': false
+                }, 
+                function() {
+                    am.requestAd(
+                        { 
+                            'isTesting': false
+                        }, 
+                        function(){
+                            am.showAd( true );
+                        }, 
+                        function() { 
+                            // alert('failed to request ad'); 
+                        }
+                    );
+                },
+                function(){
+                    // alert('failed to create banner view'); 
+                }
+            );
+
+        }
     }
 };
 
