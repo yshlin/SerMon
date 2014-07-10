@@ -103,8 +103,7 @@ var db = {
         var objectStore = transaction.objectStore('service');
         var request = objectStore.delete(serviceId);
         request.onsuccess = function(event) {
-            callback(event);
-            db.removeOldServiceLogs(serviceId, 0);
+            db.removeOldServiceLogs(serviceId, 0, callback);
         }
         request.onerror = function(event) {
             navigator.notification.alert('Remove service error: ' + event.target.errorCode, function(){});

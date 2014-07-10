@@ -20,7 +20,7 @@
 
 var app = {
     wifiLock: undefined,
-    connected: false,
+    // connected: false,
     tasks: {},
     lastCleanup: undefined,
     getServiceTemplate: function() {
@@ -152,7 +152,7 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        console.log('Device Ready!');
+        // console.log('Device Ready!');
         // console.log('Connection type: ' + navigator.connection.type);
         if (device.platform == 'firefoxos') {
             document.addEventListener('visibilitychange', function() {
@@ -168,7 +168,7 @@ var app = {
         Popup.initialize();
         Loading.initialize();
         Loading.show();
-        app.connected = (navigator.connection.type != Connection.NONE);
+        // app.connected = (navigator.connection.type != Connection.NONE);
         if (window.navigator.requestWakeLock) {
             app.wifiLock = window.navigator.requestWakeLock('wifi');            
         }
@@ -302,9 +302,9 @@ var app = {
             }
             catch (e) {
                 //network problem
-                console.log(e.name);
-                console.log(e.message);
-                console.log(e);
+                // console.log(e.name);
+                // console.log(e.message);
+                // console.log(e);
                 app.logServiceStatus(serviceId, {indicator: 'gray', errorMessage: e.name + ': ' + e.message}, callback);
             }
         // }
@@ -318,7 +318,7 @@ var app = {
                 db.listServices(function(service) {
                     if (service) {
                         db.removeOldServiceLogsBySize(service.id, function(e) {
-                            console.log('Removed '+e.removeCount+' logs for '+service.url+'.');
+                            // console.log('Removed '+e.removeCount+' logs for '+service.url+'.');
                         });
                     }
                 });
