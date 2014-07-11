@@ -33,6 +33,12 @@ Support
 * Android: works fine on emulator 4.4, chromium-based WebView is required for IndexedDB.
 * iOS: not working, waiting for IndexedDB support on iOS safari 8.
 
+Give it a try
+-------------
+* [SerMon on Firefox marketplace](https://marketplace.firefox.com/app/sermon)
+* [SerMon on Google Play](https://play.google.com/store/apps/details?id=in.yshl.sermon)
+* SerMon on iTunes AppStore (Coming soon...)
+
 Contribute
 ----------
 ### Prerequisites
